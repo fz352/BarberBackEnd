@@ -11,6 +11,9 @@ export const router = Router();
 
 
 router.post('/createNotifications', notificationsController.createNotification);
+router.get('/notifications', notificationsController.getAllNotifications);
+
+
 
 
 

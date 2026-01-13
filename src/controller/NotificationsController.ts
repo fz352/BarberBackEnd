@@ -2,8 +2,14 @@ import { prisma } from '../utils/prisma';
 import { Request, Response, NextFunction } from 'express';
 
 export class NotificationsController {
+    async getAllNotifications(req: Request, res: Response): Promise<void>{
+        const notifications = await prisma.notifications.findMany();
+        res.status(200).json(notifications);
+        return;
+    };
+
     async createNotification(req: Request, res: Response): Promise<void> {
-        const { telephone, status, text } = req.body;
+        const { telephone, text } = req.body;
         try {
             if (!telephone || !text) {
                 res.status(400).json({ error: "Telephone and text are required" });
