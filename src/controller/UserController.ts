@@ -98,39 +98,27 @@ export class UserController {
 
 
     async createClient(req: Request, res: Response): Promise<void> {
-        const { name, telephone, cpf, email, password } = req.body;
+        const { name, telephone} = req.body;
 
         try {
-            if (!name || !telephone || !email || !password) {
+            if (!name || !telephone) {
                 res.status(400).json({ message: "All fields are required." });
                 return;
             }
 
             const existingUser = await prisma.users.findFirst({
-                where: {
-                    OR: [{ email }, { cpf }, {telephone}]
-                }
+                where: {telephone}
             });
 
             if (existingUser) {
-                if (existingUser.email === email) {
-                    res.status(409).json({ message: "Client with this email already exists." });
-                } else if (existingUser.cpf === cpf) {
-                    res.status(409).json({ message: "Client with this CPF already exists." });
-                } else if (existingUser.telephone === telephone) {
-                    res.status(409).json({ message: "Client with this telephone already exists." });
-                }
+                res.status(409).json({ message: "Client with this telephone already exists." });
                 return;
             }
-
-            const hashedPassword = await hash(password, 8);
 
             const client = await prisma.users.create({
                 data: {
                     name,
                     telephone,
-                    email,
-                    password: hashedPassword,
                     type: 'CLIENT'
                 }
             });
@@ -142,6 +130,7 @@ export class UserController {
         }
 
     };
+    
 
 
 };

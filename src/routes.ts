@@ -25,10 +25,14 @@ router.get('/notifications', notificationsController.getAllNotifications);
 
 router.post('/createadmin', userController.createAdmin);
 router.post('/createbarber', userController.createBarber);
-router.post('/createclient',AuthMiddleware, authorizeRole('ADMIN'), userController.createClient);
+// router.post('/createclient',AuthMiddleware, authorizeRole('ADMIN'), userController.createClient);
+router.post('/createclient',userController.createClient);
 
 router.post('/authenticateAdminOrBarber', authcontroller.authenticate); 
-router.post('/authClient', authcontroller.authClient); 
+
+router.post('/sendClientVerificationCode', authcontroller.sendClientVerificationCode);
+router.post('/validateClientCode', authcontroller.validateClientCode);
+
 
 
 

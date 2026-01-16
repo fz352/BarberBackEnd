@@ -18,11 +18,12 @@ model Users{
   id           Int      @id @default(autoincrement())
   name         String
   telephone    String?   @unique
-  password     String
+  password     String?
   email        String?   @unique
   cpf          String?   @unique
   dateCreated  DateTime @default(now())
   type         TypeUser
+  verificationCode VerificationCode?
 }
 model Services {
   id       Int    @id @default(autoincrement())
@@ -38,4 +39,11 @@ model Notifications {
   status           String
   text             String
   DateTimeSend     DateTime?
+}
+
+model VerificationCode {
+  telephone String @id
+  code      String
+  expiresAt DateTime
+  user      Users   @relation(fields: [telephone], references: [telephone])
 }
