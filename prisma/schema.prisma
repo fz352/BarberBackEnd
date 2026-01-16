@@ -8,6 +8,22 @@ datasource db {
   url      = "file:./barber.db"
 }
 
+enum TypeUser {
+  ADMIN
+  BARBER
+  CLIENT 
+}
+
+model Users{
+  id           Int      @id @default(autoincrement())
+  name         String
+  telephone    String?   @unique
+  password     String
+  email        String?   @unique
+  cpf          String?   @unique
+  dateCreated  DateTime @default(now())
+  type         TypeUser
+}
 model Services {
   id       Int    @id @default(autoincrement())
   name     String
